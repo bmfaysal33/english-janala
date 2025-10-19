@@ -6,7 +6,14 @@ const loadLessons = () => {
         .then(json => displayLessons(json.data));
 }
 
+    const removeActive = () => {
 
+        const removeBtn = document.querySelectorAll(".lesson-btn");
+        console.log(removeBtn);
+                // removeBtn.classList.remove('active');  // Doesn't work, removes all class but addition stops there
+           removeBtn.forEach(btn => btn.classList.remove('active'));     
+
+    };
 
 
 const loadLevelWord = (id) => {
@@ -15,7 +22,12 @@ const loadLevelWord = (id) => {
     // console.log(url)
     fetch(url)
         .then((res) => res.json())
-        .then((data) => displayWordsByLevel(data.data))
+        .then((data) => {
+            removeActive();
+            const clickBtn = document.getElementById(`lesson-btn-${id}`);
+            clickBtn.classList.add('active');
+            displayWordsByLevel(data.data);
+        })
 
 }
 
@@ -25,15 +37,25 @@ const displayWordsByLevel = (words) => {
     const wordContainer = document.getElementById("word-container");
     wordContainer.innerHTML = '';
 
+
+    if (words.length == 0) {
+        wordContainer.innerHTML = `  <div class="w-11/12 mx-auto font-bangla rounded-3xl m-4 bg-white text-center p-16 col-span-full ">
+         <img class="mx-auto" src="./assets/alert-error.png">
+      <p class="mb-3">এই Lesson এ এখনো কোন Vocabulary যুক্ত করা হয়নি।</p>
+      <h1 class="text-4xl font-medium">নেক্সট Lesson এ যান</h1>
+    </div> `;
+        return;
+    }
+
     words.forEach(word => {
 
-        console.log(word);
+        // console.log(word);
 
         const card = document.createElement('div');
-        card.innerHTML = `  <div class="bg-white min-h-40 m-4 p-10 space-y-4 text-center rounded-2xl">
-        <h1 class="font-bold text-3xl">${word.word}</h1>
+        card.innerHTML = ` <div class="bg-white min-h-40 m-4 p-10 space-y-4 text-center rounded-2xl">
+        <h1 class="font-bold text-3xl">${word.word ? word.word : ' শব্দ খুঁজে পাওয়া যায় নাই'}</h1>
         <p class="font-semiboldl">Meaning /Pronounciation</p>
-        <p class="font-medium font-bangla text-2xl">"${word.meaning} / ${word.pronunciation}"</p>
+        <p class="font-medium font-bangla text-2xl">${word.meaning ? word.meaning : " অর্থ খুঁজে পাওয়া যায় নাই "} / ${word.pronunciation ? word.pronunciation : "No Pronunciation Found"}</p>
 
         <div class="flex justify-between items-center">
           <button class="btn bg-[#1A91FF10] hover:bg-[#1A91FF90]">
@@ -64,9 +86,11 @@ const displayLessons = (lessons) => {
 
         // create element
         const btnDiv = document.createElement('div');
-        btnDiv.innerHTML = ` <button onclick="loadLevelWord(${lesson.level_no})" class="btn btn-outline btn-primary">
+        btnDiv.innerHTML = ` <button id="lesson-btn-${lesson.level_no}" onclick="loadLevelWord(${lesson.level_no})" class="btn btn-outline btn-primary lesson-btn">
             <i class="fa-solid fa-book-open-reader"></i> Lesson - ${lesson.level_no}
           </button> `
+
+        //   const lessonActive = getElementById(`lesson-btn-${lesson.level_no}`);
 
         // append into container
         lessonConatiner.appendChild(btnDiv)
