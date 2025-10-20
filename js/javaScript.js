@@ -1,25 +1,54 @@
 
 
+const createSynos = (syn) => {
+    const htmlEle = syn.map(el => `<span class="btn m-2" > ${el} </span>`);
+
+    return (htmlEle.join(' '));
+};
+
+
+
+
+
 const loadLessons = () => {
     fetch("https://openapi.programming-hero.com/api/levels/all") // promise of response
         .then((res) => res.json()) // promise of json data
         .then(json => displayLessons(json.data));
+};
+
+
+// manage spinner effect
+
+const manageSpinner = (spin) => {
+    if (spin === true) {
+        document.getElementById('spinner').classList.remove('hidden');
+        document.getElementById('word-container').classList.add('hidden');
+    }
+    else {
+        document.getElementById('spinner').classList.add('hidden');
+        document.getElementById('word-container').classList.remove('hidden');
+    }
 }
 
-    const removeActive = () => {
 
-        const removeBtn = document.querySelectorAll(".lesson-btn");
-        console.log(removeBtn);
-                // removeBtn.classList.remove('active');  // Doesn't work, removes all class but addition stops there
-           removeBtn.forEach(btn => btn.classList.remove('active'));     
+const removeActive = () => {
 
-    };
+    const removeBtn = document.querySelectorAll(".lesson-btn");
+
+    // console.log(removeBtn);
+
+    // removeBtn.classList.remove('active');  // Doesn't work, removes all class but addition stops there
+    removeBtn.forEach(btn => btn.classList.remove('active'));
+
+};
 
 
 const loadLevelWord = (id) => {
-
+    manageSpinner(true);
     let url = `https://openapi.programming-hero.com/api/level/${id}`
+
     // console.log(url)
+
     fetch(url)
         .then((res) => res.json())
         .then((data) => {
@@ -28,9 +57,41 @@ const loadLevelWord = (id) => {
             clickBtn.classList.add('active');
             displayWordsByLevel(data.data);
         })
+};
 
-}
 
+
+const loadWordDetails = async (id) => {
+    const url = `https://openapi.programming-hero.com/api/word/${id}`;
+
+    const res = await fetch(url);
+    const details = await res.json();
+
+    displayWordDetails(details.data)
+};
+
+
+const displayWordDetails = (id) => {
+
+    const detailsBox = document.getElementById('word-details');
+    detailsBox.innerHTML = ` <h3 class="text-lg font-bold mb-8">
+            ${id.word} ( <i class="fa-solid fa-microphone-lines"></i> : ${id.pronunciation})
+          </h3>
+
+          <h4 class="font-semibold text-lg">Meaning</h4>
+          <p class="mb-8 font-semibold font-bangla">${id.meaning}</p>
+
+          <h4 class="font-semibold">Example</h4>
+          <p class="mb-8">${id.sentence}</p>
+
+          <h3 class="font-semibold">Synonym</h3>
+          <div>
+           ${createSynos(id.synonyms)}
+          </div>`
+
+    document.getElementById('my_modal_5').showModal();
+
+};
 
 const displayWordsByLevel = (words) => {
 
@@ -44,6 +105,9 @@ const displayWordsByLevel = (words) => {
       <p class="mb-3">এই Lesson এ এখনো কোন Vocabulary যুক্ত করা হয়নি।</p>
       <h1 class="text-4xl font-medium">নেক্সট Lesson এ যান</h1>
     </div> `;
+
+        manageSpinner(false);
+
         return;
     }
 
@@ -58,7 +122,7 @@ const displayWordsByLevel = (words) => {
         <p class="font-medium font-bangla text-2xl">${word.meaning ? word.meaning : " অর্থ খুঁজে পাওয়া যায় নাই "} / ${word.pronunciation ? word.pronunciation : "No Pronunciation Found"}</p>
 
         <div class="flex justify-between items-center">
-          <button class="btn bg-[#1A91FF10] hover:bg-[#1A91FF90]">
+          <button onclick="loadWordDetails(${word.id})"  class="btn bg-[#1A91FF10] hover:bg-[#1A91FF90]">
             <i class="fa-solid text-2xl fa-circle-info"></i>
           </button>
           <button class="btn bg-[#1A91FF10] hover:bg-[#1A91FF90]">
@@ -70,7 +134,7 @@ const displayWordsByLevel = (words) => {
         wordContainer.append(card)
 
     });
-
+    manageSpinner(false);
 
 };
 

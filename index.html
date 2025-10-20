@@ -73,7 +73,11 @@
             </li>
           </ul>
         </div>
-        <a target="_blank" href="https://www.google.com/" class="flex items-center">
+        <a
+          target="_blank"
+          href="https://www.google.com/"
+          class="flex items-center"
+        >
           <span class="text-lg font-bold">English</span>
           <img src="assets/logo.png" alt="Janala logo" />
           <span class="font-bangla text-lg font-semibold">জানালা</span>
@@ -149,27 +153,50 @@
         <div
           id="lesson-container"
           class="mb-10 flex flex-row flex-wrap items-center justify-center gap-4"
-        >
-      </div>
-
+        ></div>
       </div>
     </section>
 
+      <!-- Spinner is here  -->
 
+      <section id="spinner" class="flex justify-center items-center py-10 hidden">
+        <span class="loading loading-bars loading-xl"></span>
+      </section>
 
-        <!-- Show words here  -->
+    <!-- Show words here  -->
     <section
       id="word-container"
-      class=" w-11/12 mx-auto bg-gray-200 rounded-xl grid gap-2 grid-cols-1 md:grid-cols-3 justify-center items-center mb-40"
+      class="w-11/12 mx-auto bg-gray-200 rounded-xl grid gap-2 grid-cols-1 md:grid-cols-3 justify-center items-center mb-40"
     >
-      
-    <!-- Content div  -->
-    <div class="w-11/12 mx-auto font-bangla rounded-3xl m-4 bg-white text-center p-16 col-span-full ">
-      <p class="mb-3">আপনি এখনো কোন Lesson Select করেন ন</p>
-      <h1 class="text-4xl font-medium">একটি Lesson Select করুন।</h1>
-    </div>
-
+      <!-- Content div  -->
+      <div
+        class="w-11/12 mx-auto font-bangla rounded-3xl m-4 bg-white text-center p-16 col-span-full"
+      >
+        <p class="mb-3">আপনি এখনো কোন Lesson Select করেন ন</p>
+        <h1 class="text-4xl font-medium">একটি Lesson Select করুন।</h1>
+      </div>
     </section>
+
+    <!-- Open the modal using ID.showModal() method -->
+
+    <!-- <button class="btn" >open modal </button> -->
+    <dialog id="my_modal_5" class="modal modal-bottom sm:modal-middle">
+      <div class="modal-box">
+        <!-- Word info box  -->
+        <div id="word-details" class="border-2 rounded-xl p-6">
+         
+        </div>
+
+        <div class="modal-action">
+          <form method="dialog">
+            <!-- if there is a button in form, it will close the modal -->
+            <button class="btn btn-outline btn-primary">
+              Complete Learning
+            </button>
+          </form>
+        </div>
+      </div>
+    </dialog>
 
     <!-- Accordion div  -->
     <section class="text-center w-11/12 mx-auto mb-40">
