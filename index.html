@@ -157,11 +157,24 @@
       </div>
     </section>
 
-      <!-- Spinner is here  -->
+    <!-- Search input  -->
 
-      <section id="spinner" class="flex justify-center items-center py-10 hidden">
-        <span class="loading loading-bars loading-xl"></span>
-      </section>
+    <section class="flex justify-center items-center my-4">
+      <div class="join">
+        <div>
+          <label class="input validator join-item">
+            <input id="input-search" type="text" placeholder="Search vocabulary Now" required />
+          </label>
+        </div>
+        <button id="btn-search" class="btn btn-primary join-item">Search</button>
+      </div>
+    </section>
+
+    <!-- Spinner is here  -->
+
+    <section id="spinner" class="flex justify-center items-center py-10 hidden">
+      <span class="loading loading-bars loading-xl"></span>
+    </section>
 
     <!-- Show words here  -->
     <section
@@ -183,9 +196,7 @@
     <dialog id="my_modal_5" class="modal modal-bottom sm:modal-middle">
       <div class="modal-box">
         <!-- Word info box  -->
-        <div id="word-details" class="border-2 rounded-xl p-6">
-         
-        </div>
+        <div id="word-details" class="border-2 rounded-xl p-6"></div>
 
         <div class="modal-action">
           <form method="dialog">
