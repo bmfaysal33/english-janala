@@ -6,7 +6,11 @@ const createSynos = (syn) => {
     return (htmlEle.join(' '));
 };
 
-
+function pronounceWord(word) {
+  const utterance = new SpeechSynthesisUtterance(word);
+  utterance.lang = "en-EN"; // English
+  window.speechSynthesis.speak(utterance);
+}
 
 
 
@@ -125,7 +129,7 @@ const displayWordsByLevel = (words) => {
           <button onclick="loadWordDetails(${word.id})"  class="btn bg-[#1A91FF10] hover:bg-[#1A91FF90]">
             <i class="fa-solid text-2xl fa-circle-info"></i>
           </button>
-          <button class="btn bg-[#1A91FF10] hover:bg-[#1A91FF90]">
+          <button onclick="pronounceWord('${word.word}')" class="btn bg-[#1A91FF10] hover:bg-[#1A91FF90]">
             <i class="fa-solid text-2xl fa-volume-high"></i>
           </button>
         </div>
